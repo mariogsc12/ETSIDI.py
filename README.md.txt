@@ -1,0 +1,1 @@
+Este repositorio contiene todos los archivos realizados durante el taller de python ETSIDI.py, realizado en la Escuela Técnica Superior de Ingeniería y Diseño Indrustial de la Universidad Politécnica de Madrid en Septiembre de 2024.
