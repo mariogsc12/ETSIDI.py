@@ -29,14 +29,6 @@ def segmentation(hsv_frame):
     return red_bottle_cap, thresh
 
 
-def close_streamlit():
-        time.sleep(5)
-        # Close streamlit browser tab
-        keyboard.press_and_release('ctrl+c')
-        # Terminate streamlit python process
-        pid = os.getpid()
-        p = psutil.Process(pid)
-        p.terminate()
 
 # Configuración inicial Streamlit
 st.title('Juego de Captura de Objetos')
@@ -60,6 +52,9 @@ frame_placeholder = st.empty()
 stop_button_pressed = st.button("Detener")
 play_again_button_pressed = st.button("Jugar de nuevo")
 
+st.header("Imagen segmentada")
+segmentation_frame_placeholder = st.empty()
+
 # Variables globales
 score = 0
 radius = 10
@@ -68,6 +63,7 @@ game_over = False         # evento asíncrono
 start_time = time.time()
 difficult_mode = False
 difficult_mode_time = 50
+jugar = False
 
 # Inicializar las coordenadas del cuadrado para el modo difícil
 square_x, square_y = 0, 0
@@ -77,6 +73,9 @@ square_size_x, square_size_y = 0, 0
 
 # Capturar video desde la cámara web
 video = cv2.VideoCapture(0)
+
+
+time.sleep(2)
 
 # Bucle infinito para mostrar y procesar imagenes
 while True:
@@ -160,7 +159,7 @@ while True:
     cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 0, 0), 4)
     cv2.putText(frame, f'Score: {score}', (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(frame, f'Time: {elapsed_time:.2f}', (400, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-    cv2.circle(frame, (target_x, target_y), radius, (255, 0, 0), -1)
+    cv2.circle(frame, (target_x, target_y), radius, (0, 0, 255), -1)
     
     if difficult_mode:
         cv2.rectangle(frame, (square_x, square_y), (square_x + square_size_x, square_y + square_size_y), (255, 255, 255), -1)
@@ -170,20 +169,23 @@ while True:
         cv2.putText(frame, 'Press a button', (200, 270), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
 
     # Mostrar los frames
-    cv2.imshow('game', frame)
-    cv2.imshow('segmentation',thresh)
+    # cv2.imshow('game', frame)
+    # cv2.imshow('segmentation',thresh)
     frame_placeholder.image(frame, channels="RGB")
+    segmentation_frame_placeholder.image(thresh, channels="RGB")
 
     if cv2.waitKey(1) & 0xFF == ord('r') or play_again_button_pressed:
         game_over = False
         score = 0
         start_time = time.time()  # Reiniciar el tiempo cuando se reinicia el juego
+        play_again_button_pressed = False
 
     # Presionar 'q' para salir del bucle o botón de detener
     if cv2.waitKey(1) & 0xFF == ord('q') or stop_button_pressed:
-        close_streamlit()
         break
 
 # Liberar la cámara y cerrar todas las ventanas
+time.sleep(5)
+st.stop() # Close streamlit browser tab
 video.release()
 cv2.destroyAllWindows()
