@@ -6,4 +6,6 @@ Este repositorio contiene todos los archivos realizados durante el taller de pyt
 - check_hsv_mouse: Archivo que permite conocer los valores hsv de un pixel seleccionado con el puntero. Se ha utilizado para determinar los valores de la máscara utilizada
 
 ## Demostración del Proyecto
-![Segmentación del puntero](TallerPython/imagenes/segmentación_tapón_rojo2.jpg)
+![Segmentación del puntero](https://github.com/mariogsc12/TallerPython/blob/main/imagenes/segmentaci%C3%B3n_tap%C3%B3n_rojo2.jpg)
+
+![Interfaz Streamlit](https://github.com/mariogsc12/TallerPython/blob/main/imagenes/streamlit_webapp.jpg)
